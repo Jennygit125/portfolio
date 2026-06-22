@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+@theme {
+  --color-border: rgb(var(--border));
+  --color-background: rgb(var(--background));
+  --color-foreground: rgb(var(--foreground));
+
+  --color-primary: rgb(var(--primary));
+  --color-primary-foreground: rgb(var(--primary-foreground));
+
+  --color-secondary: rgb(var(--secondary));
+  --color-secondary-foreground: rgb(var(--secondary-foreground));
+  --color-muted: rgb(var(--muted));
+  --color-muted-foreground: rgb(var(--muted-foreground));
+  --color-input: rgb(var(--input));
+  --color-card: rgb(var(--card));
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-subtle: pulse-subtle 4s ease-in-out infinite;
+  --animate-fade-in: fade-in 0.7s ease-out forwards;
+  --animate-meteor: meteor 5s linear infinite;
+
+  @keyframes float{
+    0%,
+    100%{ 
+      transform: translateY(0);
+    }
+    50%{
+      transform: translateY(-0.635rem)
+    }
+  }
+  @keyframes pulse-subtle{
+    0%,
+    100%{ 
+      opacity: var(--star-opacity, 1);
+    }
+    50%{
+      opacity: calc(var(--star-opacity, 1) * 0.65);
+    }
+  }
+  @keyframes fade-in{
+    from{
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
+    to{
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes meteor{
+    0% { 
+      opacity: 0;
+      transform: rotate(215deg) translateX(0);
+    }
+    4%{
+      opacity: 1;
+    }
+    70%{
+      opacity: 1;
+    }
+    100%{
+      opacity: 0;
+      transform: rotate(215deg) translateX(-31.25rem);
+    }
+  }
+}
+@layer base{
+ :root{
+  --background: 248, 250, 252;
+  --foreground: 22, 38, 77;
+  --card: 255, 255, 255;
+  --primary: 110, 93, 199;
+  --primary-foreground: 225, 232, 239;
+  --secondary: 235, 240, 249;
+  --secondary-foreground: 22, 38, 77;
+  --muted: 235, 240, 249;
+  --muted-foreground: 83, 98, 124;
+  --input: 197, 211, 231;
+  --border: 218, 231, 247;
+  --star: 0,255,240;
+  --meteor: 239,191,5;
+ }
+ .dark{
+  --background: 5, 10, 20;
+  --foreground: 219, 231, 247;
+
+  --card: 16, 26, 48, 0.897;
+
+  --primary: 110, 93, 199;
+  --primary-foreground:237, 241, 247;
+
+  --secondary: 24, 36, 59;
+  --secondary-foreground: 219, 231, 247;
+  --muted: 24, 36, 59;
+  --muted-foreground: 148, 163, 184;
+  --input: 51, 65, 85;
+  --border: 34, 50, 75;
+  --star: 255, 255, 255;
+  --meteor: 255, 255, 255;
+ }
+ *{
+  @apply border-border;
+
+ }
+html{
+  @apply scroll-smooth;
+  scroll-padding-top: 5rem;
+}
+ body{
+  @apply bg-background text-foreground transition-colors duration-300;
+  font-feature-settings: 
+  "rlig" 1, "calt" 1;
+  overflow-x: hidden;
+ }
+ img,
+ svg,
+ video,
+ canvas {
+  max-width: 100%;
+ }
+}
+
+ @utility container{
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (width>=640px){
+    max-width: 649px;
+    padding-inline: 1.5rem;
+  }
+  @media (width>=768px){
+    max-width: 768px;
+  }
+  @media (width>=1024px){
+    max-width: 1024px;
+    padding-inline: 2rem;
+  }
+   @media (width>=1280px){
+    max-width: 1024px;
+  }
+   @media (width>=1400px){
+    max-width: 1024px;
+  }
+ }
+
+ @utility text-glow{
+  @apply relative;
+  text-shadow: 0 0 10px rgba(167, 139,250, 0.5);
+ }
+ @utility text-gradient{
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(
+    135deg,
+    rgb(var(--primary)),
+    rgb(var(--foreground))
+  );
+ }
+ @utility delay-1{
+  animation-delay: 0.2s;
+ }
+ @utility delay-2{
+  animation-delay: 0.4s;
+ }
+ @utility delay-3{
+  animation-delay: 0.6s;
+ }
+ @utility delay-4{
+  animation-delay: 0.8s;
+ }
+ @utility card-hover{
+  @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
+ }
+ @utility gradient-border{
+  @apply relative rounded-md;
+  background: linear-gradient(to right, rgb(var(--card)), rgb(var(--card)));
+  background-clip: padding-box;
+  border: 1px solid transparent;
+ }
+  @utility starry-button{
+  @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium
+    transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+    hover:scale-105 active:scale-95;
+ } 
+
+  @utility star{
+    @apply absolute rounded-full;
+    background-color: rgb(var(--star));
+    box-shadow: 0 0 10px 2px rgba(var(--star), 0.4);
+  
+ } 
+
+  @utility meteor{
+    @apply absolute rounded-full;
+    opacity: 0;
+    background: linear-gradient(
+      to right,
+      rgb(var(--meteor)),
+      rgb(var(--meteor)),
+      rgba(var(--meteor), 0)
+    );
+    box-shadow: 0 0 10px 5px rgba(var(--meteor), 0.3);
+  
+ } 
+
+ #root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+ }
