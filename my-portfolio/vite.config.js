@@ -2,11 +2,10 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
-import { ViteSitemap } from 'vite-plugin-sitemap';
+import ViteSitemap from 'vite-plugin-sitemap'; // <-- Changed to default import
 import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig(({ mode }) => {
-  // Use Vite's native root directory path resolver to avoid 'process is not defined'
   const rootDir = fileURLToPath(new URL('.', import.meta.url));
   const env = loadEnv(mode, rootDir, '');
   
