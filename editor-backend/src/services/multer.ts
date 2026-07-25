@@ -1,12 +1,18 @@
 import multer from 'multer';
 
-// Keep files in memory as Buffers
 const storage = multer.memoryStorage();
 
-// Export the customized configuration (allowing max 10 images at once)
 export const uploadi = multer({ 
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024 // Limit files to 5MB max each
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (_req, file, cb) => {
+    // Accept only image formats
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'));
+    }
   }
 });

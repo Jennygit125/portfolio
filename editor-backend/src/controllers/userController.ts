@@ -23,6 +23,23 @@ interface ExpressEndpoint {
   middlewares: string[];
 }
 
+const parseStringifiedArray = (field: any): string[] => {
+  if (!field) return [];
+  if (Array.isArray(field)) return field.map(String);
+  
+  const trimmed = String(field).trim();
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      return Array.isArray(parsed) ? parsed.map(String) : [trimmed];
+    } catch {
+      return [trimmed];
+    }
+  }
+  return trimmed !== "" 
+    ? trimmed.split(",").map(item => item.trim()) 
+    : [trimmed];
+};
 
 export const routes = async(req: Request, res: Response) => {
   // Automatically scans Express internal routing table (works in production build)
@@ -309,70 +326,56 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const createData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
   try {
-    const { title, description, links } = req.body;
+    const { title, description, tags, demoUrl, githubUrl, otherlinks, imageUrl } = req.body;
     
-    if (!req.user?.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized access." });
-    }
+    if (!req.user?.id) return res.status(401).json({ success: false, message: "Unauthorized access." });
     const authorId = Number(req.user.id);
     
-    if (!title || !description) {
-      return res.status(400).json({ success: false, message: "Title and description required." });
-    }
+    if (!title || !description) return res.status(400).json({ success: false, message: "Title and description required." });
 
-    // 1. Process multiple incoming images concurrently if any exist in the form-data request
+    // Process multiple incoming images concurrently
     const files = req.files as Express.Multer.File[];
     let uploadedImageUrls: string[] = [];
 
     if (files && files.length > 0) {
       const folderPath = "portfolio_assets";
-      
-      // Map every binary file buffer directly to your upload service helper
       const uploadPromises = files.map(file => 
         uploadToCloudinary(file.buffer, folderPath, authorId.toString())
       );
-      
-      // Wait for all assets to be securely processed and saved on Cloudinary
       uploadedImageUrls = await Promise.all(uploadPromises);
     }
 
-    // 2. Parse incoming text array link assets safely
-    let parsedLinks: string[] = [];
-    if (links) {
-      if (Array.isArray(links)) {
-        parsedLinks = links.map(String);
-      } else if (typeof links === "string") {
-        const trimmedLinks = links.trim();
-        if (trimmedLinks.startsWith("[") && trimmedLinks.endsWith("]")) {
-          try {
-            const parsed = JSON.parse(trimmedLinks);
-            parsedLinks = Array.isArray(parsed) ? parsed.map(String) : [trimmedLinks];
-          } catch {
-            parsedLinks = [trimmedLinks];
-          }
-        } else if (trimmedLinks !== "") {
-          parsedLinks = trimmedLinks.includes(",") 
-            ? trimmedLinks.split(",").map(item => item.trim()) 
-            : [trimmedLinks];
-        }
-      }
+    // Process existing imageUrl array if provided
+    if (imageUrl) {
+      const parsedExistingImages = parseStringifiedArray(imageUrl);
+      uploadedImageUrls = [...uploadedImageUrls, ...parsedExistingImages];
     }
 
-    // 3. Commit actual portfolio entries directly to Prisma with explicit schema constraints
+    // Parse incoming text array assets securely
+    const parsedTags = parseStringifiedArray(tags);
+    const parsedOtherLinks = parseStringifiedArray(otherlinks);
+
+    // Commit to Prisma with explicit schema constraints
     const newVals = await prisma.data.create({
       data: {
         title: String(title),
         description: String(description),
         authorId: authorId,
-        imageUrl: uploadedImageUrls, // Maps perfectly to your new String[] column
-        links: parsedLinks          // Maps perfectly to your new String[] column
+        imageUrl: uploadedImageUrls,
+        tags: parsedTags,
+        demoUrl: demoUrl ? String(demoUrl) : null,
+        githubUrl: githubUrl ? String(githubUrl) : null,
+        otherlinks: parsedOtherLinks
       },
       select: {
         id: true,
         title: true,
         description: true,
         imageUrl: true,
-        links: true,
+        tags: true,
+        demoUrl: true,
+        githubUrl: true,
+        otherlinks: true,
         authorId: true,
         createdAt: true
       }
@@ -392,111 +395,107 @@ export const createData = async (req: AuthenticatedRequest, res: Response): Prom
 
 
 
-
-
-//DATA
-/*export const createData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
+export const updateData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
   try {
-    const { title, description, links } = req.body;
+   
+    const { title, description, tags, demoUrl, githubUrl, otherlinks, removeImages } = req.body;
+
+    const recordId = Number(req.params.id);
+    if (isNaN(recordId)) return res.status(400).json({ success: false, message: "Invalid record parameter ID." });
     
-    if (!req.user?.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized access." });
-    }
+    if (!req.user?.id) return res.status(401).json({ success: false, message: "Unauthorized access." });
     const authorId = Number(req.user.id);
-    
-    if (!title || !description) {
-      return res.status(400).json({ success: false, message: "Title and description required." });
+
+    const record = await prisma.data.findUnique({ where: { id: recordId } });
+    if (!record) return res.status(404).json({ success: false, message: "Data record not found." });
+    if (record.authorId !== authorId) return res.status(403).json({ success: false, message: "Forbidden: You do not own this data record." });
+
+    let updatedImageUrls = [...record.imageUrl];
+
+    if (removeImages) {
+      const urlsToRemove = Array.isArray(removeImages) ? removeImages : [removeImages];
+      updatedImageUrls = updatedImageUrls.filter(url => !urlsToRemove.includes(url));
     }
 
-    // --- Hardened Image Array Logic ---
-    let uploadedImageUrls: string[] = [];
-    
-    // Normalize req.files to always be handled as a flat array
-    let filesArray: Express.Multer.File[] = [];
-    if (req.files) {
-      if (Array.isArray(req.files)) {
-        filesArray = req.files;
-      } else if (typeof req.files === "object") {
-        // Fallback case: if files came grouped by field names
-        filesArray = Object.values(req.files).flat() as Express.Multer.File[];
-      }
-    }
-
-    if (filesArray.length > 0) {
+    const files = req.files as Express.Multer.File[];
+    if (files && files.length > 0) {
       const folderPath = "portfolio_assets";
-      const uploadPromises = filesArray.map(async (file) => {
-        const result = await uploadToCloudinary(file.buffer, folderPath, authorId.toString());
-        return String(result); // Explicit primitive string guarantee
-      });
-      uploadedImageUrls = await Promise.all(uploadPromises);
+      const uploadPromises = files.map(file => uploadToCloudinary(file.buffer, folderPath, authorId.toString()));
+      const newImageUrls = await Promise.all(uploadPromises);
+      updatedImageUrls = [...updatedImageUrls, ...newImageUrls];
     }
 
-    // --- Hardened Link Array Logic ---
-    let parsedLinks: string[] = [];
-    if (links) {
-      if (Array.isArray(links)) {
-        parsedLinks = links.map(String);
-      } else if (typeof links === "string") {
-        const trimmedLinks = links.trim();
-        if (trimmedLinks.startsWith("[") && trimmedLinks.endsWith("]")) {
-          try {
-            const parsed = JSON.parse(trimmedLinks);
-            parsedLinks = Array.isArray(parsed) ? parsed.map(String) : [trimmedLinks];
-          } catch {
-            parsedLinks = [trimmedLinks];
-          }
-        } else if (trimmedLinks !== "") {
-          parsedLinks = trimmedLinks.includes(",") 
-            ? trimmedLinks.split(",").map(item => item.trim()) 
-            : [trimmedLinks];
-        }
+   
+    const parsedTags = tags !== undefined ? parseStringifiedArray(tags) : undefined;
+    const parsedOtherLinks = otherlinks !== undefined ? parseStringifiedArray(otherlinks) : undefined;
+
+   
+    const updated = await prisma.data.update({
+      where: { id: recordId },
+      data: { 
+        title: title || undefined, 
+        description: description || undefined, 
+        tags: parsedTags,
+        demoUrl: demoUrl !== undefined ? String(demoUrl) : undefined,
+        githubUrl: githubUrl !== undefined ? String(githubUrl) : undefined,
+        otherlinks: parsedOtherLinks,
+        imageUrl: updatedImageUrls
       }
-    }
-
-    // --- Strict Prisma Array Injection Guard ---
-    const finalImages = Array.isArray(uploadedImageUrls) ? uploadedImageUrls : [];
-    const finalLinks = Array.isArray(parsedLinks) ? parsedLinks : [];
-
-    // Save directly to your PostgreSQL model
-    // --- Replace the prisma.data.create block with this explicit database call ---
-
-const newVals = await prisma.data.create({
-  data: {
-    title: String(title),
-    description: String(description),
-    authorId: authorId,
-    // Explicit array mapping forces the exact string format Prisma expects
-    imageUrl: {
-      set: Array.isArray(uploadedImageUrls) ? uploadedImageUrls.map(String) : []
-    },
-    links: {
-      set: Array.isArray(parsedLinks) ? parsedLinks.map(String) : []
-    }
-  }
-});
-
-
-    return res.status(201).json({
-      success: true,
-      message: "Data record created successfully",
-      data: newVals
     });
 
-  } catch (error: any) {
-    // This logs the full error to your docker container console so you can see everything
-    console.error("CRITICAL DATABASE SAVE CRASH:", error?.message || error);
-    logger.error({ err: error }, "Failed to create data record");
-    
-    return res.status(500).json({
-      success: false,
-      message: "Save failed.",
-      debugError: error?.message || "Check container terminal logs"
+    return res.status(200).json({ 
+      success: true, 
+      message: "Data record and assets updated successfully", 
+      data: updated 
     });
+
+  } catch (error) {
+    logger.error({ err: error }, "Failed to update data record with assets");
+    return res.status(500).json({ success: false, message: "Update execution failed." });
   }
 };
-*/
 
 
+export const deleteUser = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ success: false, message: "Unauthorized access." });
+    const targetUserId = Number(req.user.id);
+
+    await prisma.user.update({
+      where: { id: targetUserId },
+      data: { deletedAt: new Date() }
+    });
+
+    return res.status(200).json({ success: true, message: "Account has been successfully deactivated." });
+  } catch (error) {
+    logger.error({ err: error }, `Soft delete failed for user ID: ${req.user?.id}`);
+    return res.status(500).json({ success: false, message: "An unexpected server error occurred during deactivation." });
+  }
+};
+
+// Notice the change from Request to AuthenticatedRequest here too
+export const adminDeleteUser = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
+  const { id } = req.params;
+  const targetUserId = parseInt(id as string, 10);
+  
+  if (isNaN(targetUserId)) return res.status(400).json({ success: false, message: "Invalid user ID format." });
+  if (!req.user?.id) return res.status(401).json({ success: false, message: "Unauthorized access." });
+
+  if (targetUserId === Number(req.user.id)) {
+    return res.status(400).json({ success: false, message: "You cannot deactivate your own account through this endpoint." });
+  }
+
+  try {
+    await prisma.user.update({
+      where: { id: targetUserId, deletedAt: null },
+      data: { deletedAt: new Date() }
+    });
+    return res.status(200).json({ success: true, message: `User account (ID: ${targetUserId}) has been successfully deactivated by Admin.` });
+  } catch (error) {
+    logger.error({ err: error }, `Admin soft-delete failed for target user ID: ${targetUserId} by Admin ID: ${req.user.id}`);
+    return res.status(500).json({ success: false, message: "An unexpected server error occurred." });
+  }
+};
 
 export const getData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
   try {
@@ -520,94 +519,6 @@ export const getData = async (req: AuthenticatedRequest, res: Response): Promise
   }
 };
 
-
-
-
-export const updateData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
-  try {
-    const { title, description, links, removeImages } = req.body;
-
-    // 1. Safe parsing of the target record ID
-    const recordId = Number(req.params.id);
-    if (isNaN(recordId)) {
-      return res.status(400).json({ success: false, message: "Invalid record parameter ID." });
-    }
-
-    if (!req.user?.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized access." });
-    }
-    const authorId = Number(req.user.id);
-
-    // 2. Fetch the existing record to confirm strict user ownership
-    const record = await prisma.data.findUnique({ where: { id: recordId } });
-    if (!record) {
-      return res.status(404).json({ success: false, message: "Data record not found." });
-    }
-    if (record.authorId !== authorId) {
-      return res.status(403).json({ success: false, message: "Forbidden: You do not own this data record." });
-    }
-
-    // Initialize our image array with the values already saved in PostgreSQL
-    let updatedImageUrls = [...record.imageUrl];
-
-    // 3. Optional: Filter out any image URLs the user wants to remove
-    if (removeImages) {
-      const urlsToRemove = Array.isArray(removeImages) ? removeImages : [removeImages];
-      updatedImageUrls = updatedImageUrls.filter(url => !urlsToRemove.includes(url));
-    }
-
-    // 4. Intercept new incoming files from the multipart upload pipeline
-    const files = req.files as Express.Multer.File[];
-    if (files && files.length > 0) {
-      const folderPath = "portfolio_assets";
-      
-      // Process new images concurrently through your Cloudinary utility
-      const uploadPromises = files.map(file => 
-        uploadToCloudinary(file.buffer, folderPath, authorId.toString())
-      );
-      const newImageUrls = await Promise.all(uploadPromises);
-      
-      // Append the new Cloudinary links to our asset array tracker
-      updatedImageUrls = [...updatedImageUrls, ...newImageUrls];
-    }
-
-    // 5. Parse incoming text array link assets safely
-    let parsedLinks: string[] | undefined = undefined;
-    if (links) {
-      if (Array.isArray(links)) {
-        parsedLinks = links;
-      } else {
-        try {
-          const parsed = JSON.parse(links);
-          parsedLinks = Array.isArray(parsed) ? parsed : [links];
-        } catch {
-          parsedLinks = [links];
-        }
-      }
-    }
-
-    // 6. Push verified dataset into PostgreSQL
-    const updated = await prisma.data.update({
-      where: { id: recordId },
-      data: { 
-        title: title || undefined, 
-        description: description || undefined, 
-        links: parsedLinks,
-        imageUrl: updatedImageUrls // Maps perfectly to your String[] schema database type
-      }
-    });
-
-    return res.status(200).json({ 
-      success: true, 
-      message: "Data record and images updated successfully", 
-      data: updated 
-    });
-
-  } catch (error) {
-    logger.error({ err: error }, "Failed to update data record with assets");
-    return res.status(500).json({ success: false, message: "Update execution failed." });
-  }
-};
 
 export const deleteSingleData = async (req: AuthenticatedRequest, res: Response): Promise<any> => {
   try {
@@ -634,86 +545,5 @@ export const deleteSingleData = async (req: AuthenticatedRequest, res: Response)
   } catch (error) {
     logger.error({ err: error }, `Failed to delete data record with ID: ${req.params.id}`);
     return res.status(500).json({ success: false, message: "Deletion execution failed." });
-  }
-};
-
-
-
-export const deleteUser = async (req: Request, res: Response) => {
-  try {
-    // 1. Grab the target user ID from the authenticated request context (Self-deletion)
-    const targetUserId = req.user.id;
-
-    // 2. Perform the soft delete by changing the timestamp
-    await prisma.user.update({
-      where: { id: targetUserId },
-      data: {
-        deletedAt: new Date() // Sets the current date/time flagging them as deleted
-      }
-    });
-
-    // 3. confirmation message
-    return res.status(200).json({
-      success: true,
-      message: "Account has been successfully deactivated."
-    });
-
-  } catch (error) {
-    logger.error({ err: error }, `Soft delete failed for user ID: ${req.user?.id}`);
-    
-    return res.status(500).json({
-      success: false,
-      message: "An unexpected server error occurred during deactivation."
-    });
-  }
-};
-
-
-export const adminDeleteUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  // 1. Validate the target ID is a valid number
-  const targetUserId = parseInt(id as string, 10);
-  if (isNaN(targetUserId)) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid user ID format."
-    });
-  }
-
-  // 2. Guard rail: Prevent an admin from accidentally soft-deleting themselves
-  if (targetUserId === req.user.id) {
-    return res.status(400).json({
-      success: false,
-      message: "You cannot deactivate your own account through this endpoint."
-    });
-  }
-
-  try {
-    // 3. Perform the admin-driven soft delete
-    await prisma.user.update({
-      where: { 
-        id: targetUserId,
-        deletedAt: null // Only update if they aren't already deleted
-      },
-      data: {
-        deletedAt: new Date()
-      }
-    });
-
-    return res.status(200).json({
-      success: true,
-      message: `User account (ID: ${targetUserId}) has been successfully deactivated by Admin.`
-    });
-
-  } catch (error) {
-    // 4. Handle record not found cleanly
-    
-   logger.error({ err: error }, `Admin soft-delete failed for target user ID: ${targetUserId} by Admin ID: ${req.user.id}`);
-    
-    return res.status(500).json({
-      success: false,
-      message: "An unexpected server error occurred."
-    });
   }
 };

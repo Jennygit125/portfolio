@@ -2258,6 +2258,8 @@ export namespace Prisma {
     updatedAt: Date | null
     title: string | null
     description: string | null
+    demoUrl: string | null
+    githubUrl: string | null
     authorId: number | null
   }
 
@@ -2267,6 +2269,8 @@ export namespace Prisma {
     updatedAt: Date | null
     title: string | null
     description: string | null
+    demoUrl: string | null
+    githubUrl: string | null
     authorId: number | null
   }
 
@@ -2277,7 +2281,10 @@ export namespace Prisma {
     title: number
     description: number
     imageUrl: number
-    links: number
+    tags: number
+    demoUrl: number
+    githubUrl: number
+    otherlinks: number
     authorId: number
     _all: number
   }
@@ -2299,6 +2306,8 @@ export namespace Prisma {
     updatedAt?: true
     title?: true
     description?: true
+    demoUrl?: true
+    githubUrl?: true
     authorId?: true
   }
 
@@ -2308,6 +2317,8 @@ export namespace Prisma {
     updatedAt?: true
     title?: true
     description?: true
+    demoUrl?: true
+    githubUrl?: true
     authorId?: true
   }
 
@@ -2318,7 +2329,10 @@ export namespace Prisma {
     title?: true
     description?: true
     imageUrl?: true
-    links?: true
+    tags?: true
+    demoUrl?: true
+    githubUrl?: true
+    otherlinks?: true
     authorId?: true
     _all?: true
   }
@@ -2416,7 +2430,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl: string[]
-    links: string[]
+    tags: string[]
+    demoUrl: string | null
+    githubUrl: string | null
+    otherlinks: string[]
     authorId: number
     _count: DataCountAggregateOutputType | null
     _avg: DataAvgAggregateOutputType | null
@@ -2446,7 +2463,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     imageUrl?: boolean
-    links?: boolean
+    tags?: boolean
+    demoUrl?: boolean
+    githubUrl?: boolean
+    otherlinks?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["data"]>
@@ -2458,7 +2478,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     imageUrl?: boolean
-    links?: boolean
+    tags?: boolean
+    demoUrl?: boolean
+    githubUrl?: boolean
+    otherlinks?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["data"]>
@@ -2470,7 +2493,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     imageUrl?: boolean
-    links?: boolean
+    tags?: boolean
+    demoUrl?: boolean
+    githubUrl?: boolean
+    otherlinks?: boolean
     authorId?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["data"]>
@@ -2482,11 +2508,14 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     imageUrl?: boolean
-    links?: boolean
+    tags?: boolean
+    demoUrl?: boolean
+    githubUrl?: boolean
+    otherlinks?: boolean
     authorId?: boolean
   }
 
-  export type DataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "title" | "description" | "imageUrl" | "links" | "authorId", ExtArgs["result"]["data"]>
+  export type DataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "title" | "description" | "imageUrl" | "tags" | "demoUrl" | "githubUrl" | "otherlinks" | "authorId", ExtArgs["result"]["data"]>
   export type DataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2509,7 +2538,10 @@ export namespace Prisma {
       title: string
       description: string
       imageUrl: string[]
-      links: string[]
+      tags: string[]
+      demoUrl: string | null
+      githubUrl: string | null
+      otherlinks: string[]
       authorId: number
     }, ExtArgs["result"]["data"]>
     composites: {}
@@ -2941,7 +2973,10 @@ export namespace Prisma {
     readonly title: FieldRef<"Data", 'String'>
     readonly description: FieldRef<"Data", 'String'>
     readonly imageUrl: FieldRef<"Data", 'String[]'>
-    readonly links: FieldRef<"Data", 'String[]'>
+    readonly tags: FieldRef<"Data", 'String[]'>
+    readonly demoUrl: FieldRef<"Data", 'String'>
+    readonly githubUrl: FieldRef<"Data", 'String'>
+    readonly otherlinks: FieldRef<"Data", 'String[]'>
     readonly authorId: FieldRef<"Data", 'Int'>
   }
     
@@ -4443,7 +4478,10 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     imageUrl: 'imageUrl',
-    links: 'links',
+    tags: 'tags',
+    demoUrl: 'demoUrl',
+    githubUrl: 'githubUrl',
+    otherlinks: 'otherlinks',
     authorId: 'authorId'
   };
 
@@ -4671,7 +4709,10 @@ export namespace Prisma {
     title?: StringFilter<"Data"> | string
     description?: StringFilter<"Data"> | string
     imageUrl?: StringNullableListFilter<"Data">
-    links?: StringNullableListFilter<"Data">
+    tags?: StringNullableListFilter<"Data">
+    demoUrl?: StringNullableFilter<"Data"> | string | null
+    githubUrl?: StringNullableFilter<"Data"> | string | null
+    otherlinks?: StringNullableListFilter<"Data">
     authorId?: IntFilter<"Data"> | number
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -4683,7 +4724,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
-    links?: SortOrder
+    tags?: SortOrder
+    demoUrl?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    otherlinks?: SortOrder
     authorId?: SortOrder
     author?: UserOrderByWithRelationInput
   }
@@ -4698,7 +4742,10 @@ export namespace Prisma {
     title?: StringFilter<"Data"> | string
     description?: StringFilter<"Data"> | string
     imageUrl?: StringNullableListFilter<"Data">
-    links?: StringNullableListFilter<"Data">
+    tags?: StringNullableListFilter<"Data">
+    demoUrl?: StringNullableFilter<"Data"> | string | null
+    githubUrl?: StringNullableFilter<"Data"> | string | null
+    otherlinks?: StringNullableListFilter<"Data">
     authorId?: IntFilter<"Data"> | number
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -4710,7 +4757,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
-    links?: SortOrder
+    tags?: SortOrder
+    demoUrl?: SortOrderInput | SortOrder
+    githubUrl?: SortOrderInput | SortOrder
+    otherlinks?: SortOrder
     authorId?: SortOrder
     _count?: DataCountOrderByAggregateInput
     _avg?: DataAvgOrderByAggregateInput
@@ -4729,7 +4779,10 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Data"> | string
     description?: StringWithAggregatesFilter<"Data"> | string
     imageUrl?: StringNullableListFilter<"Data">
-    links?: StringNullableListFilter<"Data">
+    tags?: StringNullableListFilter<"Data">
+    demoUrl?: StringNullableWithAggregatesFilter<"Data"> | string | null
+    githubUrl?: StringNullableWithAggregatesFilter<"Data"> | string | null
+    otherlinks?: StringNullableListFilter<"Data">
     authorId?: IntWithAggregatesFilter<"Data"> | number
   }
 
@@ -4869,7 +4922,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
     author: UserCreateNestedOneWithoutPostsInput
   }
 
@@ -4880,7 +4936,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
     authorId: number
   }
 
@@ -4890,7 +4949,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
   }
 
@@ -4901,7 +4963,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
     authorId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -4912,7 +4977,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
     authorId: number
   }
 
@@ -4922,7 +4990,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
   }
 
   export type DataUncheckedUpdateManyInput = {
@@ -4932,7 +5003,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
     authorId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5229,7 +5303,10 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     imageUrl?: SortOrder
-    links?: SortOrder
+    tags?: SortOrder
+    demoUrl?: SortOrder
+    githubUrl?: SortOrder
+    otherlinks?: SortOrder
     authorId?: SortOrder
   }
 
@@ -5244,6 +5321,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    demoUrl?: SortOrder
+    githubUrl?: SortOrder
     authorId?: SortOrder
   }
 
@@ -5253,6 +5332,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrder
     description?: SortOrder
+    demoUrl?: SortOrder
+    githubUrl?: SortOrder
     authorId?: SortOrder
   }
 
@@ -5446,7 +5527,11 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type DataCreatelinksInput = {
+  export type DataCreatetagsInput = {
+    set: string[]
+  }
+
+  export type DataCreateotherlinksInput = {
     set: string[]
   }
 
@@ -5461,7 +5546,12 @@ export namespace Prisma {
     push?: string | string[]
   }
 
-  export type DataUpdatelinksInput = {
+  export type DataUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type DataUpdateotherlinksInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -5716,7 +5806,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
   }
 
   export type DataUncheckedCreateWithoutAuthorInput = {
@@ -5726,7 +5819,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
   }
 
   export type DataCreateOrConnectWithoutAuthorInput = {
@@ -5765,7 +5861,10 @@ export namespace Prisma {
     title?: StringFilter<"Data"> | string
     description?: StringFilter<"Data"> | string
     imageUrl?: StringNullableListFilter<"Data">
-    links?: StringNullableListFilter<"Data">
+    tags?: StringNullableListFilter<"Data">
+    demoUrl?: StringNullableFilter<"Data"> | string | null
+    githubUrl?: StringNullableFilter<"Data"> | string | null
+    otherlinks?: StringNullableListFilter<"Data">
     authorId?: IntFilter<"Data"> | number
   }
 
@@ -5830,7 +5929,10 @@ export namespace Prisma {
     title: string
     description: string
     imageUrl?: DataCreateimageUrlInput | string[]
-    links?: DataCreatelinksInput | string[]
+    tags?: DataCreatetagsInput | string[]
+    demoUrl?: string | null
+    githubUrl?: string | null
+    otherlinks?: DataCreateotherlinksInput | string[]
   }
 
   export type DataUpdateWithoutAuthorInput = {
@@ -5839,7 +5941,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
   }
 
   export type DataUncheckedUpdateWithoutAuthorInput = {
@@ -5849,7 +5954,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
   }
 
   export type DataUncheckedUpdateManyWithoutAuthorInput = {
@@ -5859,7 +5967,10 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     imageUrl?: DataUpdateimageUrlInput | string[]
-    links?: DataUpdatelinksInput | string[]
+    tags?: DataUpdatetagsInput | string[]
+    demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    githubUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    otherlinks?: DataUpdateotherlinksInput | string[]
   }
 
 

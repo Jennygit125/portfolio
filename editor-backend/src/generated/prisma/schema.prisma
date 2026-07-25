@@ -31,7 +31,10 @@ model Data {
   title       String
   description String
   imageUrl    String[]
-  links       String[]
+  tags        String[]
+  demoUrl     String?
+  githubUrl   String?
+  otherlinks  String[]
   author      User     @relation(fields: [authorId], references: [id])
   authorId    Int
 }

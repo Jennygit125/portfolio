@@ -137,7 +137,10 @@ exports.Prisma.DataScalarFieldEnum = {
   title: 'title',
   description: 'description',
   imageUrl: 'imageUrl',
-  links: 'links',
+  tags: 'tags',
+  demoUrl: 'demoUrl',
+  githubUrl: 'githubUrl',
+  otherlinks: 'otherlinks',
   authorId: 'authorId'
 };
 

@@ -1,34 +1,15 @@
 import express from "express";
 import morgan from "morgan";
 import userRoutes from "./routes/routes";
-import cors from "cors"
-
-import dotenv from "dotenv"
-
-
+import dotenv from "dotenv";
 dotenv.config();
-
 const app = express();
-
-const corsOptions = {
-  origin: '*', // Allow all origins
-  credentials: true,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
-
-app.use(cors(corsOptions));
-
 app.use(express.json());
-
 app.use(morgan('dev'));
-
-app.use("/", userRoutes);
-
-
+app.use("/api", userRoutes);
 // Uses the environment port, or defaults to 3000 if undefined
 const PORT = process.env.PORT || 3000;
-
 app.listen(Number(PORT), "0.0.0.0", () => {
-  console.log(`Server running boy on port ${PORT}`);
+    console.log(`Server running boy on port ${PORT}`);
 });
-
+//# sourceMappingURL=server.js.map
