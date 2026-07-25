@@ -1,11 +1,11 @@
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
 # --- Stage 1: Base & Builder ---
 FROM node:22-alpine AS builder
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
 
-ENV CI=true 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+ENV CI=true
 
 # CRUCIAL: Added .npmrc to this line so Docker copies your security override
 COPY package.json pnpm-lock.yaml tsconfig.json pnpm-workspace.yaml .npmrc ./
