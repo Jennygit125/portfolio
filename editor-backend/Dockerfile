@@ -1,3 +1,5 @@
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
 # --- Stage 1: Base & Builder ---
 FROM node:22-alpine AS builder
 RUN corepack enable && corepack prepare pnpm@latest --activate
