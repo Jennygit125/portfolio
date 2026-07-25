@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   const rootDir = fileURLToPath(new URL('.', import.meta.url));
   const env = loadEnv(mode, rootDir, '');
   
-  const baseUrl = env.VITE_SITE_URL || 'https://portfolio-three-kappa-33.vercel.app';
+  const baseUrl = env.VITE_SITE_URL || 'https://portfolio-two-ecru-78.vercel.app/';
 
   return {
     plugins: [
