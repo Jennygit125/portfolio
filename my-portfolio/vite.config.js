@@ -1,34 +1,30 @@
 import { defineConfig, loadEnv } from 'vite';
-import react, { reactCompilerPreset } from '@vitejs/plugin-react';
-import babel from '@rolldown/plugin-babel';
+import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 import { ViteSitemap } from 'vite-plugin-sitemap';
 import { createHtmlPlugin } from 'vite-plugin-html';
-import process from 'node:process';
 
 export default defineConfig(({ mode }) => {
-
-  const env = loadEnv(mode, process.cwd(), '');
+  // Use Vite's native root directory path resolver to avoid 'process is not defined'
+  const rootDir = fileURLToPath(new URL('.', import.meta.url));
+  const env = loadEnv(mode, rootDir, '');
   
-  // Fallback 
-  const baseUrl = env.VITE_SITE_URL || 'https://portfolio-two-ecru-78.vercel.app';
+  const baseUrl = env.VITE_SITE_URL || 'https://portfolio-three-kappa-33.vercel.app';
 
   return {
     plugins: [
       react(),
       tailwindcss(),
-      babel({ presets: [reactCompilerPreset()] }),
       ViteSitemap({
         baseUrl,
-        // Only include public routes in the sitemap (exclude /studio)
         routes: ['/'],
         generateRobotsTxt: true,
         robots: [
           {
             userAgent: '*',
             allow: '/',
-            disallow: ['/studio', '/studis'], // Keep private studio pages hidden from bots
+            disallow: ['/studio', '/studis'],
           },
         ],
       }),
