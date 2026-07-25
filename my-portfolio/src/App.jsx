@@ -1,5 +1,5 @@
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Home} from "./pages/Home";
+import {Home, Studio} from "./pages/Home";
 import { NotFound } from "./pages/NOTFOUND";
 import { Toaster } from "react-hot-toast";
 function App() {
@@ -29,6 +29,7 @@ function App() {
       <BrowserRouter>
       <Routes>
         <Route index element={<Home />}/>
+        <Route path="/studio" element={<Studio />}/>
         <Route path="*" element={<NotFound />}/>
       </Routes>
       </BrowserRouter>

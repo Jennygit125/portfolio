@@ -10,7 +10,7 @@ export const HeroSection = () => {
                     <span className="text-primary opacity-0 animate-fade-in delay-1">The </span>
                     <span className="text-gradient ml-2 opacity-0 animate-fade-in delay-2">Thrill</span>
                 </h1>
-                <p className= "text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in delay-3">Why the thrill? simple actually fixing bugs and coding in general gives me a thrill one to create stellar experiences and faster webpages i believe the two most important things are speed and security.</p>
+                <p className= "text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in delay-3">A goal driven developer who loves to create stellar experiences and faster applications, I'm also a problem solver the type of guy that loves a challenge be it fixing bug's or learning new techniques and technologies.</p>
                 <div>
                     <a className="starry-button opacity-0 animate-fade-in delay-4" href="#projects">
                     View my work

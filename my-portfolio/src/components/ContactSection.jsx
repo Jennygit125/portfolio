@@ -2,6 +2,7 @@ import { Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { cn } from "@/lib/util";
+import { api } from "@/lib/axiosConfig";
 
 const contactItems = [
   {
@@ -26,17 +27,36 @@ const contactItems = [
 export const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    const formData = new FormData(form);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const message = formData.get("message");
+
     setIsSubmitting(true);
 
-    window.setTimeout(() => {
+    try {
+      await api.post(
+        "/contact",
+        {
+          name,
+          email,
+          message,
+        },
+      );
+
       toast.success("Message sent. Thank you, I'll get back to you soon.");
       form.reset();
+    } catch (error) {
+      toast.error("Sorry, the message could not be sent. Please try again.");
+      console.error("Contact form submission failed:", error);
+    } finally {
       setIsSubmitting(false);
-    }, 900);
+    }
   };
+  
 
   return (
     <section id="contact" className="relative bg-secondary/60 px-4 py-20 md:py-24">
@@ -59,7 +79,7 @@ export const ContactSection = () => {
                   const content = (
                     <>
                       <h4 className="font-medium text-foreground">{label}</h4>
-                      <span className="break-words text-muted-foreground transition-colors group-hover:text-primary">
+                      <span className="wrap-break-words text-muted-foreground transition-colors group-hover:text-primary">
                         {value}
                       </span>
                     </>

@@ -1,20 +1,19 @@
-
 import {cn} from "@/lib/util.js";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 
-const navItems = [
-    {name: "Home", href: "#hero"},
-    {name: "About", href: "#about"},
-    {name: "Skills", href: "#skills"},
-    {name: "Projects", href: "#projects"},
-    {name: "Studio", href: "/studio"},
-    {name: "Contact", href: "#contact"},
+
+const backItems = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/#about" },
+    { name: "Skills", href: "/#skills" },
+    { name: "Projects", href: "/#projects" },
+    { name: "Studio", href: "/studio" },
+    { name: "Contact", href: "/#contact" },
 ];
 
-
-export const Navbar = () => {
+export const Back = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
@@ -52,7 +51,7 @@ export const Navbar = () => {
                 </a>
                 {/*desktop nav*/}
                 <div className="hidden md:flex space-x-8">
-                   {navItems.map((item) => (
+                   {backItems.map((item) => (
                     <a key={item.name} href={item.href} className="text-foreground/80 hover:text-primary transition-colors duration-300">{item.name}</a>
                    ))} 
                 </div>
@@ -81,7 +80,7 @@ export const Navbar = () => {
                     isMenuOpen ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-3 opacity-0 pointer-events-none"
                 )}>
                  <div className="flex flex-col gap-1 text-base font-medium">
-                   {navItems.map((item) => (
+                   {backItems.map((item) => (
                     <a key={item.name} href={item.href} className="rounded-md px-4 py-3 text-foreground/80 transition-colors duration-300 hover:bg-secondary hover:text-primary"
                     onClick={() => setIsMenuOpen(false)}
                     >{item.name}</a>

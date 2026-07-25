@@ -15,8 +15,7 @@ export const AboutSection = () =>{
                         I specialize in creating fast and responsive web applications designing secure web apps from frontend to the backend using modern technologies.
                     </p>
                     <p className="text-muted-foreground">
-                        <span>PROFILE</span>
-                        I'm a problem solver the type of guy that loves a challenge be it fixing bug's or learning new techniques and technologies 
+                        I'm also a problem solver the type of guy that loves a challenge be it fixing bug's or learning new techniques and technologies. 
                         I am passionate about continuous improvement and strive for excellence in everything I do. I am always looking for ways to learn and grow, both personally and professionally.
 
                         Fullname:
