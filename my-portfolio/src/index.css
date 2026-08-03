@@ -107,11 +107,38 @@ html{
   @apply scroll-smooth;
   scroll-padding-top: 5rem;
 }
- body{
+body{
   @apply bg-background text-foreground transition-colors duration-300;
   font-feature-settings: 
   "rlig" 1, "calt" 1;
   overflow-x: hidden;
+ }
+.skip-link {
+  position: absolute;
+  left: -999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+ }
+.skip-link:focus,
+.skip-link:active {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1rem;
+  background: rgb(var(--background));
+  color: rgb(var(--foreground));
+  border: 1px solid rgb(var(--border));
+  z-index: 50;
+ }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgb(var(--primary));
+  outline-offset: 2px;
  }
  img,
  svg,

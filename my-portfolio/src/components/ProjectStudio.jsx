@@ -194,22 +194,36 @@ export const ProjectStudio = () => {
           <div className="space-y-6 rounded-lg border border-border bg-card p-6 shadow-xs">
             <form className="space-y-4" onSubmit={handleSignIn}>
               <h2 className="text-2xl font-semibold">Studio Sign In</h2>
-              <input
-                name="email"
-                type="email"
-                value={authForm.email}
-                onChange={handleAuthChange}
-                placeholder="Email"
-                className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-              />
-              <input
-                name="password"
-                type="password"
-                value={authForm.password}
-                onChange={handleAuthChange}
-                placeholder="Password"
-                className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-              />
+              <div>
+                <label htmlFor="studio-email" className="mb-2 block text-sm font-medium">
+                  Email address
+                </label>
+                <input
+                  id="studio-email"
+                  name="email"
+                  type="email"
+                  value={authForm.email}
+                  onChange={handleAuthChange}
+                  placeholder="Email"
+                  required
+                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label htmlFor="studio-password" className="mb-2 block text-sm font-medium">
+                  Password
+                </label>
+                <input
+                  id="studio-password"
+                  name="password"
+                  type="password"
+                  value={authForm.password}
+                  onChange={handleAuthChange}
+                  placeholder="Password"
+                  required
+                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                />
+              </div>
               <button
                 type="submit"
                 disabled={signingIn}
@@ -222,66 +236,101 @@ export const ProjectStudio = () => {
             <div className="space-y-4">
               <h2 className="text-2xl font-semibold">New Project</h2>
               <form className="space-y-4" onSubmit={handleSubmit}>
-                <input
-                  id="title"
-                  name="title"
-                  value={form.title}
-                  onChange={handleChange}
-                  required
-                  placeholder="Title"
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <textarea
-                  id="description"
-                  name="description"
-                  value={form.description}
-                  onChange={handleChange}
-                  required
-                  rows={4}
-                  placeholder="Description"
-                  className="w-full resize-none rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  id="tags"
-                  name="tags"
-                  value={form.tags}
-                  onChange={handleChange}
-                  placeholder="Tags (comma separated, e.g. React, Node.js)"
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  id="demoUrl"
-                  name="demoUrl"
-                  value={form.demoUrl}
-                  onChange={handleChange}
-                  placeholder="Live Demo URL"
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  id="githubUrl"
-                  name="githubUrl"
-                  value={form.githubUrl}
-                  onChange={handleChange}
-                  placeholder="GitHub Repository URL"
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  id="otherlinks"
-                  name="otherlinks"
-                  value={form.otherlinks}
-                  onChange={handleChange}
-                  placeholder="Other Links (comma separated)"
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  id="images"
-                  name="images"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImagesChange}
-                  className="w-full rounded-md border border-input bg-background px-4 py-3 text-sm outline-hidden transition file:mr-4 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground focus:ring-2 focus:ring-primary"
-                />
+                <div>
+                  <label htmlFor="title" className="mb-2 block text-sm font-medium">
+                    Project Title
+                  </label>
+                  <input
+                    id="title"
+                    name="title"
+                    value={form.title}
+                    onChange={handleChange}
+                    required
+                    placeholder="Title"
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="description" className="mb-2 block text-sm font-medium">
+                    Project Description
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={form.description}
+                    onChange={handleChange}
+                    required
+                    rows={4}
+                    placeholder="Description"
+                    className="w-full resize-none rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="tags" className="mb-2 block text-sm font-medium">
+                    Tags
+                  </label>
+                  <input
+                    id="tags"
+                    name="tags"
+                    value={form.tags}
+                    onChange={handleChange}
+                    placeholder="Tags (comma separated, e.g. React, Node.js)"
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="demoUrl" className="mb-2 block text-sm font-medium">
+                    Live demo URL
+                  </label>
+                  <input
+                    id="demoUrl"
+                    name="demoUrl"
+                    value={form.demoUrl}
+                    onChange={handleChange}
+                    placeholder="Live Demo URL"
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="githubUrl" className="mb-2 block text-sm font-medium">
+                    GitHub repository URL
+                  </label>
+                  <input
+                    id="githubUrl"
+                    name="githubUrl"
+                    value={form.githubUrl}
+                    onChange={handleChange}
+                    placeholder="GitHub Repository URL"
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="otherlinks" className="mb-2 block text-sm font-medium">
+                    Other links
+                  </label>
+                  <input
+                    id="otherlinks"
+                    name="otherlinks"
+                    value={form.otherlinks}
+                    onChange={handleChange}
+                    placeholder="Other Links (comma separated)"
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 outline-hidden transition focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="images" className="mb-2 block text-sm font-medium">
+                    Project images
+                  </label>
+                  <input
+                    id="images"
+                    name="images"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImagesChange}
+                    className="w-full rounded-md border border-input bg-background px-4 py-3 text-sm outline-hidden transition file:mr-4 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-2 file:text-sm file:font-medium file:text-secondary-foreground focus:ring-2 focus:ring-primary"
+                  />
+                </div>
                 <button
                   type="submit"
                   disabled={saving || !token}

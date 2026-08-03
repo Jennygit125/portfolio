@@ -19,13 +19,14 @@ export const Home = () => {
 
         {/*Nav bar*/}
         <Navbar/>
-        {/*Main  */}
-        <HeroSection/>
-        <AboutSection/>
-        <SkillsSection/>
-        <ProjectSection/>
-        <ContactSection/>
-        <Footer/>
+        <main id="main-content">
+          <HeroSection/>
+          <AboutSection/>
+          <SkillsSection/>
+          <ProjectSection/>
+          <ContactSection/>
+          <Footer/>
+        </main>
         </div></>
 }
 

@@ -109,7 +109,7 @@ export const ContactSection = () => {
                 <a
                   href="https://github.com/Jennygit125"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label="GitHub profile"
                   className="rounded-full border border-border bg-card p-3 text-foreground/80 transition-colors hover:border-primary hover:text-primary"
                 >
