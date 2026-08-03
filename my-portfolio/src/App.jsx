@@ -1,8 +1,11 @@
+import { lazy, Suspense } from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Home, Studio} from "./pages/Home";
-import { ProjectStudio } from "./components/ProjectStudio";
-import { NotFound } from "./pages/NOTFOUND";
 import { Toaster } from "react-hot-toast";
+import { Home } from "./pages/Home";
+
+const Studio = lazy(() => import("./pages/Studio").then((mod) => ({ default: mod.Studio })));
+const NotFound = lazy(() => import("./pages/NOTFOUND").then((mod) => ({ default: mod.NotFound })));
+
 function App() {
 
   return (
@@ -28,12 +31,24 @@ function App() {
         }}
       />
       <BrowserRouter>
-      <Routes>
-        <Route index element={<Home />}/>
-        <Route path="/studio" element={<Studio />}/>
-        <Route path="/studis" element={<ProjectStudio />}/>
-        <Route path="*" element={<NotFound />}/>
-      </Routes>
+        <Routes>
+          <Route index element={<Home />}/>
+          <Route path="/studio" element={
+            <Suspense fallback={<div aria-busy="true" className="min-h-screen" />}>
+              <Studio />
+            </Suspense>
+          }/>
+          <Route path="/studis" element={
+            <Suspense fallback={<div aria-busy="true" className="min-h-screen" />}>
+              <Studio />
+            </Suspense>
+          }/>
+          <Route path="*" element={
+            <Suspense fallback={<div aria-busy="true" className="min-h-screen" />}>
+              <NotFound />
+            </Suspense>
+          }/>
+        </Routes>
       </BrowserRouter>
     </>
   )
