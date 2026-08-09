@@ -153,7 +153,7 @@ textarea:focus-visible {
   padding-inline: 1rem;
 
   @media (width>=640px){
-    max-width: 649px;
+    max-width: 640px;
     padding-inline: 1.5rem;
   }
   @media (width>=768px){

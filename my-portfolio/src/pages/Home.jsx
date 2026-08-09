@@ -1,4 +1,4 @@
-import { ThemeToggle } from "../components/ThemeToggle"
+
 import { StarBackground } from "../components/StarBackground"
 import { Navbar } from "../components/Navbar"
 import { HeroSection } from "../components/HeroSection"
@@ -11,14 +11,14 @@ import { ProjectStudio } from "../components/ProjectStudio"
 
 export const Home = () => {
     return <><div className="min-h-dvh bg-background text-foreground overflow-x-hidden">
-        {/* Theme Toggle*/}
-        <ThemeToggle/>
+
 
         {/*Background effects*/}
         <StarBackground/>
 
         {/*Nav bar*/}
-        <Navbar/>
+        <Navbar/> 
+        
         <main id="main-content">
           <HeroSection/>
           <AboutSection/>

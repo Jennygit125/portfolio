@@ -1,15 +1,13 @@
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
-import {cn} from "@/lib/util.js";
+import { cn } from "@/lib/util.js";
 
 export const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
-
     if (savedTheme) {
       return savedTheme === "dark";
     }
-
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
 
@@ -25,8 +23,10 @@ export const ThemeToggle = () => {
   return (
     <button
       type="button"
-      onClick={toggleTheme} className={cn("fixed  top-3 right-3 flex items-center justify-center h-10 w-10 z-50 p-2 rounded-full transition-colors duration-300",
-        "focus:outline-hidden"
+      onClick={toggleTheme}
+      className={cn(
+        "shrink-0 flex items-center justify-center h-10 w-10 z-50 p-2 rounded-full transition-colors duration-300",
+        "focus:outline-none hover:bg-gray-100 dark:hover:bg-gray-800"
       )}
       aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
       title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}

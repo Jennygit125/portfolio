@@ -13,7 +13,7 @@ export const Footer = () => {
 
     return (
         <>
-            <footer className="py-12 border-t-3 px-4 md:px-8 bg-card border-t border-border flex flex-col items-center justify-center gap-4 text-center">
+            <footer className="py-12 border-t-3 px-4 md:px-8 bg-card  border-border flex flex-col items-center justify-center gap-4 text-center">
                 <p className="text-sm text-muted-foreground max-w-2xl">
                     &copy; {new Date().getFullYear()} bakreeniola.dev, All rights reserved
                 </p>

@@ -8,7 +8,8 @@ export const HeroSection = () => {
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                     <span className="opacity-0 animate-fade-in">Hi, I'm </span>
                     <span className="text-primary opacity-0 animate-fade-in delay-1">The </span>
-                    <span className="text-gradient ml-2 opacity-0 animate-fade-in delay-2">Thrill</span>
+                    <span className="text-gradient ml-2 opacity-0 animate-fade-in delay-2">Thrill
+                     </span>
                 </h1>
                 <p className= "text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto opacity-0 animate-fade-in delay-3">Bakre Eniola Dahud, A goal driven developer who loves creating stellar experiences and faster applications, I'm also a problem solver the type of guy that loves a challenge be it fixing bug's or learning new techniques and technologies.</p>
                 <div>
