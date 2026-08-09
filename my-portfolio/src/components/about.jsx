@@ -21,7 +21,7 @@ export const AboutSection = () =>{
                         I am passionate about continuous improvement and strive for excellence in everything I do. I am always looking for ways to learn and grow, both personally and professionally.<br/>
                         <br/>
 
-                        <span className="text-muted-foreground text-primary">
+                        <span className="text-primary">
                         Surname: BAKRE <br/>
                         First Name: Eniola <br/>
                         Occupation: Developer <br/>
