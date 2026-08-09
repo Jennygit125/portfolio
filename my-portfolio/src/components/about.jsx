@@ -8,21 +8,27 @@ export const AboutSection = () =>{
             <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
                 About <span className="text-primary">Me</span>
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                    <h3 className="text-2xl font-semibold">Passionate Web Developer</h3>
-                    <p className="text-muted-foreground">
-                        I specialize in creating fast and responsive web applications designing secure web apps from frontend to the backend using modern technologies.
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 ">
+                <div className="space-y-6 text-left">
+                    <h3 className="text-2xl font-semibold ">Passionate Developer/engineer</h3>
+                    
+                    <span className="text-justify">
+                    <p className="text-muted-foreground items-center">
+                        I specialize in creating fast and responsive web applications designing secure web apps from frontend to the backend using modern technologies.<br/> <br/>
                     </p>
                     <p className="text-muted-foreground">
                         I'm also a problem solver the type of guy that loves a challenge be it fixing bug's or learning new techniques and technologies. 
-                        I am passionate about continuous improvement and strive for excellence in everything I do. I am always looking for ways to learn and grow, both personally and professionally.
+                        I am passionate about continuous improvement and strive for excellence in everything I do. I am always looking for ways to learn and grow, both personally and professionally.<br/>
+                        <br/>
 
-                        Fullname:
-                        Bakre Eniola Dahud
-                        Job: Freelancer, Junior Full Stack Web Developer
+                        <span className="text-muted-foreground text-primary">
+                        Surname: BAKRE <br/>
+                        First Name: Eniola <br/>
+                        Occupation: Developer <br/>
                         Email: thrill.codex@gmail.com
+                        </span> 
                     </p>
+                    </span>
                     <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
                     <a href="#contact" className="starry-button">
                     {""}
