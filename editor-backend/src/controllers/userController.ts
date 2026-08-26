@@ -200,13 +200,13 @@ export const signUp = async(req: Request, res: Response) => {
     });
     
      
-    // 1. Create a clean, simple object for the payload
+    // Create a clean, simple object for the payload
 const payload = { 
   id: Number(user.id),     // Ensure it's a primitive number/string
-  email: String(user.email) // Ensure it's a primitive string
+  email: String(user.email)
 };
 
-// 2. Pass the clean payload and cast the options
+// Pass the clean payload and cast the options
 const token = jwt.sign(
   payload, 
   process.env.JWT_SECRET as string, 
