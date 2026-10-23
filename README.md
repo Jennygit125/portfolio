@@ -26,12 +26,12 @@ Welcome to my portfolio repository! I'm passionate about building scalable web a
 
 ## 📈 GitHub Stats
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=YourGitHubUsername&show_icons=true&theme=radical" alt="GitHub Stats" />
+  <img src="https://github-readme-stats.vercel.app/api?username=Jennygit125&show_icons=true&theme=radical" alt="GitHub Stats" />
 </p>
 
 ---
 
 ## 📫 How to Reach Me
-* **Email:** your.email@example.com
-* **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/yourusername)
-* **Twitter/X:** [@YourTwitterHandle](https://twitter.com/yourusername)
+* **Email:** thrill.codex@gmail.com
+* **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/thrill-codex)
+* **Twitter/X:** [@YourTwitterHandle](https://twitter.com/@Deathsfeat)
