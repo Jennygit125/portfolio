@@ -33,5 +33,5 @@ Welcome to my portfolio repository! I'm passionate about building scalable web a
 
 ## 📫 How to Reach Me
 * **Email:** thrill.codex@gmail.com
-* **LinkedIn:** [Your LinkedIn Profile](https://linkedin.com/in/thrill-codex)
-* **Twitter/X:** [@YourTwitterHandle](https://twitter.com/@Deathsfeat)
+* **LinkedIn:** [Bakre eniola](https://linkedin.com/in/thrill-codex)
+* **Twitter/X:** [@Deathsfeat](https://twitter.com/@Deathsfeat)
