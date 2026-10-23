@@ -15,32 +15,14 @@ Welcome to my portfolio repository! I'm passionate about building scalable web a
 ---
 
 ## 🛠️ Tech Stack & Tools
-* **Languages:** JavaScript, Python, TypeScript, HTML5, CSS3
+* **Languages:** JavaScript, TypeScript, HTML5, CSS3
 * **Frontend:** React, Next.js, Tailwind CSS
-* **Backend:** Node.js, Express, Django
+* **Backend:** Node.js, Express
 * **Databases:** MongoDB, PostgreSQL, MySQL
 * **DevOps & Tools:** Git, GitHub, Docker, VS Code
 
 ---
 
-## 📂 Featured Projects
-
-### 1. [Project Name 1](https://github.com/YourUsername/Project-Repo)
-* **Description:** A short, punchy summary of what this project does and the problem it solves.
-* **Tech Stack:** React, Node.js, MongoDB
-* **Key Features:** 
-  * User authentication and authorization
-  * Real-time data updates
-  * Responsive and modern UI
-
-### 2. [Project Name 2](https://github.com/YourUsername/Project-Repo)
-* **Description:** A brief overview of your second major project.
-* **Tech Stack:** Python, Django, PostgreSQL
-* **Key Features:**
-  * Automated data processing pipeline
-  * RESTful API integration
-
----
 
 ## 📈 GitHub Stats
 <p align="center">
